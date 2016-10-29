@@ -1,4 +1,4 @@
-# solitaire
+# Solitaire
 
 Rewrite of classic game in learning puproses
 
