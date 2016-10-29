@@ -1,0 +1,214 @@
+.card{
+  border-radius: 6px;
+  display: inline-block;
+  background-size: 100% 100%;
+  background-color: white;
+  position: absolute;
+  -webkit-perspective: 300px;
+  -moz-perspective: 300px;
+}
+
+.front{
+  	border-radius: 6px;	
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+  	box-shadow: 0px -1px 10px #333;	
+}
+
+#deck-x div.card div.front,  
+.foundation-cells div.card div.front {
+  	box-shadow: none;	
+}
+
+.back {
+  	border-radius: 6px;	
+	position: absolute;	
+	background-image: url("../img/cards/back.gif") !important;
+	box-shadow: none; 
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+
+.cursor-grab{
+  cursor: -webkit-grab; 
+  cursor: -moz-grab;
+}
+
+.cursor-grabbing{
+  cursor: -webkit-grabbing; 
+  cursor: -moz-grabbing;
+}
+
+.card.ui-draggable-dragging{
+	box-shadow: 0px 0px 20px lightgreen; 
+	cursor: -webkit-grabbing; 
+	cursor: -moz-grabbing;
+}
+
+.scaled {
+	width: 100px;
+	height: 145px;
+}
+
+#card_1_1{
+	background-image: url("../img/cards/card_1_1.gif");
+}
+#card_1_2{
+	background-image: url("../img/cards/card_1_2.gif");
+}
+#card_1_3{
+	background-image: url("../img/cards/card_1_3.gif");
+}
+#card_1_4{
+	background-image: url("../img/cards/card_1_4.gif");
+}
+#card_1_5{
+	background-image: url("../img/cards/card_1_5.gif");
+}
+#card_1_6{
+	background-image: url("../img/cards/card_1_6.gif");
+}
+#card_1_7{
+	background-image: url("../img/cards/card_1_7.gif");
+}
+#card_1_8{
+	background-image: url("../img/cards/card_1_8.gif");
+}
+#card_1_9{
+	background-image: url("../img/cards/card_1_9.gif");
+}
+#card_1_10{
+	background-image: url("../img/cards/card_1_10.gif");
+}
+#card_1_11{
+	background-image: url("../img/cards/card_1_11.gif");
+}
+#card_1_12{
+	background-image: url("../img/cards/card_1_12.gif");
+}
+#card_1_13{
+	background-image: url("../img/cards/card_1_13.gif");
+}
+
+#card_2_1{
+	background-image: url("../img/cards/card_2_1.gif");
+}
+#card_2_2{
+	background-image: url("../img/cards/card_2_2.gif");
+}
+#card_2_3{
+	background-image: url("../img/cards/card_2_3.gif");
+}
+#card_2_4{
+	background-image: url("../img/cards/card_2_4.gif");
+}
+#card_2_5{
+	background-image: url("../img/cards/card_2_5.gif");
+}
+#card_2_6{
+	background-image: url("../img/cards/card_2_6.gif");
+}
+#card_2_7{
+	background-image: url("../img/cards/card_2_7.gif");
+}
+#card_2_8{
+	background-image: url("../img/cards/card_2_8.gif");
+}
+#card_2_9{
+	background-image: url("../img/cards/card_2_9.gif");
+}
+#card_2_10{
+	background-image: url("../img/cards/card_2_10.gif");
+}
+#card_2_11{
+	background-image: url("../img/cards/card_2_11.gif");
+}
+#card_2_12{
+	background-image: url("../img/cards/card_2_12.gif");
+}
+#card_2_13{
+	background-image: url("../img/cards/card_2_13.gif");
+}
+
+#card_3_1{
+	background-image: url("../img/cards/card_3_1.gif");
+}
+#card_3_2{
+	background-image: url("../img/cards/card_3_2.gif");
+}
+#card_3_3{
+	background-image: url("../img/cards/card_3_3.gif");
+}
+#card_3_4{
+	background-image: url("../img/cards/card_3_4.gif");
+}
+#card_3_5{
+	background-image: url("../img/cards/card_3_5.gif");
+}
+#card_3_6{
+	background-image: url("../img/cards/card_3_6.gif");
+}
+#card_3_7{
+	background-image: url("../img/cards/card_3_7.gif");
+}
+#card_3_8{
+	background-image: url("../img/cards/card_3_8.gif");
+}
+#card_3_9{
+	background-image: url("../img/cards/card_3_9.gif");
+}
+#card_3_10{
+	background-image: url("../img/cards/card_3_10.gif");
+}
+#card_3_11{
+	background-image: url("../img/cards/card_3_11.gif");
+}
+#card_3_12{
+	background-image: url("../img/cards/card_3_12.gif");
+}
+#card_3_13{
+	background-image: url("../img/cards/card_3_13.gif");
+}
+
+#card_4_1{
+	background-image: url("../img/cards/card_4_1.gif");
+}
+#card_4_2{
+	background-image: url("../img/cards/card_4_2.gif");
+}
+#card_4_3{
+	background-image: url("../img/cards/card_4_3.gif");
+}
+#card_4_4{
+	background-image: url("../img/cards/card_4_4.gif");
+}
+#card_4_5{
+	background-image: url("../img/cards/card_4_5.gif");
+}
+#card_4_6{
+	background-image: url("../img/cards/card_4_6.gif");
+}
+#card_4_7{
+	background-image: url("../img/cards/card_4_7.gif");
+}
+#card_4_8{
+	background-image: url("../img/cards/card_4_8.gif");
+}
+#card_4_9{
+	background-image: url("../img/cards/card_4_9.gif");
+}
+#card_4_10{
+	background-image: url("../img/cards/card_4_10.gif");
+}
+#card_4_11{
+	background-image: url("../img/cards/card_4_11.gif");
+}
+#card_4_12{
+	background-image: url("../img/cards/card_4_12.gif");
+}
+#card_4_13{
+	background-image: url("../img/cards/card_4_13.gif");
+}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html class="full">
+<head>
+<title>jQuery Solitaire by ig</title>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css" href="css/solitaire.css">
+<link rel="stylesheet" type="text/css" href="css/cards.css">
+<link rel="stylesheet" type="text/css" href="css/cards-font.css">
+<script type="text/javascript" src="js/solitaire.js"></script>
+
+<script type="text/javascript" src="js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.transit.min.js"></script> <!-- flipping cards -->
+<script type="text/javascript" src="js/velocity.min.js"></script> <!-- slowing down and sequencing animation -->
+
+</head>
+
+<body>
+<!-- oncontextmenu="return false;">  -->
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    cardDeckInit();
+    makeFoundations();
+    makeCells();
+    makeCards();
+    makeCardsDraggable(); // has to be first job before manipulating them (dealing/dragging)  
+    makeCardsDropable();  // has to be first job before manipulating them (dealing/dragging)  
+
+    setTimeout(function(){ newGameInit(); }, 300);
+
+    footerAnimation();
+    recalculateAbsolutes();
+
+
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $('#startNewGame').on('click',
+        function(evt){
+        console.log('Starting New Game');
+        newGameInit();
+        $('#NewGameModal').modal('hide');
+        recalculateAbsolutes();
+    });
+
+    $('.modal').on('show.bs.modal', function () {
+        if ($(document).height() > $(window).height()) {
+            // no-scroll
+            $('body').addClass("modal-open-noscroll");
+        }
+        else {
+            $('body').removeClass("modal-open-noscroll");
+        }
+    })
+    $('.modal').on('hide.bs.modal', function () {
+        $('body').removeClass("modal-open-noscroll");
+    });
+
+
+    
+    //zoomToFit();
+
+});// document ready
+</script>
+
+
+
+<div class="container" id="maincontainer">
+<div class="panel panel-default"> <!-- panel-default -->
+<div class="panel-heading">
+    <h3 class="panel-title">igSolitaire</h3>
+    <!--
+    <div class="center-block text-center" style="width:800px" id="tablediv">
+    	 <h2>igSolitaire</h2>
+    </div>
+    -->
+</div>
+
+<div class = "panel-body" >
+
+    <div class="sidebuttons">
+      <button type="button" class="btn btn-success" onclick="openNewGameModal();" data-placement='right'  title="Start a new game" data-toggle="tooltip">
+        <span class="glyphicon glyphicon-refresh"></span>
+      </button><br><br>
+      <button type="button" class="btn btn-info" onclick="openHelpModal();" data-toggle="tooltip" data-target="#HelpModal" data-placement='right'  title="Help">
+          <span class="glyphicon glyphicon-question-sign"></span>
+      </button>
+    </div>
+
+	<div id="maintable">
+
+    <table>
+    <tr>
+        <td width="392px">
+            <div class="dealing-base">
+                <div class="cells dealing-cells scaled" id="deck"><span class="glyphicon glyphicon-repeat"></span></div>
+                <div class="cells dealing-cells scaled" id="deck-x"></div>                
+            </div>    
+        </td>
+        <td>
+            <div class="foundation-base">
+                <div class="cells foundation-cells scaled" id="fcell1"></div>
+                <div class="cells foundation-cells scaled" id="fcell2"></div>
+                <div class="cells foundation-cells scaled" id="fcell3"></div>
+                <div class="cells foundation-cells scaled" id="fcell4"></div>
+            </div>    
+        </td>
+    </tr>        
+    <tr>
+        <td colspan="2">
+                <div class="cells-base">
+                    <div id="mouse_div2"></div>                                    
+                    <div class="cells scaled" id="cell1"></div>
+                    <div class="cells scaled" id="cell2"></div>
+                    <div class="cells scaled" id="cell3"></div>
+                    <div class="cells scaled" id="cell4"></div>
+                    <div class="cells scaled" id="cell5"></div>
+                    <div class="cells scaled" id="cell6"></div>
+                    <div class="cells scaled" id="cell7"></div>
+                    
+                </div>
+        </td>        
+    </tr>
+    <tr><td colspan="2"><div class="tableau"></div></td></tr>
+    </table>
+
+    </div><!-- maintable-->
+
+<p>&nbsp;
+</div> <!-- panel body--> 
+
+
+
+<div class="panel-footer">
+    <!-- BUTTONS -->
+    <!--
+    <div class="center-block text-center" id="buttons-wrap">
+    
+    <button type="button" class="btn btn-success width110" onclick="newGameInit();">New Game</button>
+    <button type="button" id="helpbutton" class="btn btn-info width110" data-toggle="modal" data-target="#HelpModal">Help</button>
+
+    </div>
+    -->
+    <div class="text-right" id="footer-copy">
+        <b>&copy; 2016 Programmed by Ignas Gramba, with help of: &nbsp;</b>
+        <img id="logo1" class="footer-logos logo-up" src="img/logos/html5.svg"        height="38px">
+        <img id="logo2" class="footer-logos logo-up" src="img/logos/css3.svg"         height="44px">
+        <img id="logo3" class="footer-logos"         src="img/logos/javascript.svg"   height="30px">&nbsp;&nbsp;
+        <img id="logo4" class="footer-logos"         src="img/logos/bootstrap-4.svg"  height="30px">&nbsp;
+        <img id="logo5" class="footer-logos"         src="img/logos/jquery-1.svg"     height="20px">&nbsp;
+        <img id="logo6" class="footer-logos"         src="img/logos/stackoverflow.svg"height="30px">&nbsp;&nbsp;
+        <img id="logo7" class="footer-logos"         src="img/logos/emoticon_50a.png"  height="30px">
+    </div>
+
+</div> <!-- panel footer -->
+</div> <!-- panel panel-->
+
+</div> <!-- panel container -->
+
+
+<!--    GAME COMPLETED modal -->   
+<div class="modal fade" id="GameCompletedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+    <div class="modal-dialog green">
+       <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h3 class="modal-title">Congratulations</h3>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+            
+            <div class="row">    
+                <div class="col-md-12">
+                    <h1 class="text-center"><span id="playersname"></span></h1>
+                    <h1 class="text-center">YOU DID IT !!!!</h1>
+                </div>
+            </div>
+
+            </div><!-- modal body -->
+
+            <div class="modal-footer">
+                <div class="text-center">
+                    <button type="submit" id="cancelHelp" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                </div>
+            </div>
+        </div> <!-- modal content -->
+    </div> <!-- modal dialog -->
+</div>
+
+
+<!--    HELP modal -->   
+<div class="modal fade" id="HelpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+    <div class="modal-dialog">
+       <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h3 class="modal-title">Game Rules</h3>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+            
+            <div class="row">    
+				<div class="col-md-12">
+
+<h4 class="text-justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object of the Game</h4>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first objective is to release and play into position certain cards to build up each foundation, in sequence and in suit, from the ace through the king. The ultimate objective is to build the whole pack onto the foundations, and if that can be done, the Solitaire game is won.
+When starting out, the foundations and waste pile do not have any cards.</p>
+
+<h4 class="text-justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank of Cards</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The rank of cards in Solitaire game is: <b>K</b><i>(high)</i><b>, Q, J, 10, 9, 8, 7, 6, 5, 4, 3, 2, A</b><i>(low)</i>.</p>
+
+
+
+<h4 class="text-justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Playing the Game</h4>
+<ul>
+<li> Use any exposed <b>Aces</b> to start a pile on which you will build up the remaining cards in that suit.</li>
+<li> Move any remaining cards around as you build rows of cards that are in <u>descending</u> order and <u>alternating</u> <span class="red">red</span>/black color (e.g., 10 of <span class="icon-clubs"></span>, 9 of <span class="icon-diamonds red"></span>, 8 of <span class="icon-spades"></span>, 7 of <span class="glyphicon glyphicon-heart red"></span>, etc.).</li>
+<li> Continue to build the suit piles, beginning with the aces, and to rearrange the rows of descending cards, in order to free up all the cards that are face down in piles.</li>
+<li> Once a row is empty (with no more face-down cards), a new descending row can be started using a <b>King</b>.</li>
+<li> Whenever no more moves remain, turn over cards from the reserve deck.</li>
+<li> Once all reserve cards have been turned over, the entire stack can be turned back face down and reused.</li>
+</ul>
+
+<h4 class="text-justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Winning the Game</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To win the game you must successfully free up all face-down cards and manage to build each of the suit piles all the way from ace to king.</p>
+            		
+            	</div>
+			</div>  
+
+            </div><!-- modal body -->
+
+            <div class="modal-footer">
+                  <button type="submit" id="cancelHelp" class="btn btn-info"  data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- modal content -->
+    </div> <!-- modal dialog -->
+</div>
+
+<!--    NEW GAME DIALOG modal -->   
+<div class="modal fade" id="NewGameModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+    <div class="modal-dialog modal-sm">
+       <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h3 class="modal-title" id="myModalLabel">
+                    Start New Game
+                </h3>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+            
+            <div class="row">    
+                <div class="col-md-12">
+
+                    <label for="nameInput">Your name:</label>
+                    <input type="text" class="form-control input-sm" id="nameInput" placeholder="Name"/>
+
+                </div>
+
+            </div>
+            
+            <hr>
+
+            <div class="row">  
+                <div class="col-md-12">            
+                      <label for="sel1">Click on card's deck opens:</label>
+                      <select class="form-control" id="size">
+                        <option selected>1 card</option>
+                        <option>3 cards</option>
+                      </select>
+                </div>
+            </div>
+            </div><!-- modal body -->
+
+            <div class="modal-footer">
+                  <button type="submit" id="startNewGame" class="btn btn-success">Start</button>
+                  <button type="submit" id="cancelNewGame" class="btn btn-default"  data-dismiss="modal">Cancel</button>
+            </div>
+        </div> <!-- modal content -->
+    </div> <!-- modal dialog -->
+</div>
+
+</body>
+</html>
